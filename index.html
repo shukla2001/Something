@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Shree ji 💕</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        .heart-float {
+            animation: floatUp linear forwards;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Heart = ({ size = 24, fill = "none", color = "currentColor", className = "" }) => (
+            <svg 
+                width={size} 
+                height={size} 
+                viewBox="0 0 24 24" 
+                fill={fill} 
+                stroke={color} 
+                strokeWidth="2" 
+                className={className}
+            >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+        );
+
+        const Flower2 = ({ size = 24, fill = "none", color = "currentColor" }) => (
+            <svg 
+                width={size} 
+                height={size} 
+                viewBox="0 0 24 24" 
+                fill={fill} 
+                stroke={color} 
+                strokeWidth="2"
+            >
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5"></path>
+            </svg>
+        );
+
+        const RomanticInvitation = () => {
+            const [currentCard, setCurrentCard] = useState(0);
+            const [answers, setAnswers] = useState([]);
+            const [hearts, setHearts] = useState([]);
+            const [showTicket, setShowTicket] = useState(false);
+
+            const questions = [
+                {
+                    question: "Hey Chi-chi ki mummy! Ready for something special that I've been planning? 💕",
+                    options: [
+                        "Omg yes! Tell me now! 😍",
+                        "You're making me blush already! 🥰",
+                        "I'm all ears baby! 💖"
+                    ]
+                },
+                {
+                    question: "So... what if I told you we're escaping to somewhere beautiful for 3 whole days? Just us 🌸",
+                    options: [
+                        "Wait, are you serious?! 😱",
+                        "My heart is literally racing! 💓",
+                        "You're the best!! 🏆"
+                    ]
+                },
+                {
+                    question: "Manipal, Udupi... beaches, food, and endless us time. What do you think, Jaaneman?",
+                    options: [
+                        "Let's explore everything! 🎒",
+                        "Sounds like a dream! 💑",
+                        "Can't wait to make memories! 📸"
+                    ]
+                },
+                {
+                    question: "Imagine Princess.....sunset walks, late night talking, lots of love... Ready to say yes, Darling?",
+                    options: [
+                        "YES! Obviously yes! 💍",
+                        "I'm already packing! 🧳",
+                        "You had me at sunset 🌅"
+                    ]
+                },
+                {
+                    question: "Last question Ruchita...!! Can you handle me spoiling you for 3 days straight? 😊",
+                    options: [
+                        "Bring it on! 👑",
+                        "You're too sweet! 🍰",
+                        "Let's do this! 🚀"
+                    ]
+                }
+            ];
+
+            useEffect(() => {
+                const interval = setInterval(() => {
+                    const size = Math.random() > 0.7 ? Math.random() * 30 + 30 : Math.random() * 20 + 15;
+                    setHearts(prev => [...prev, {
+                        id: Date.now() + Math.random(),
+                        left: Math.random() * 100,
+                        size: size,
+                        duration: Math.random() * 3 + 7
+                    }]);
+                }, 1000);
+
+                return () => clearInterval(interval);
+            }, []);
+
+            useEffect(() => {
+                const cleanup = setTimeout(() => {
+                    setHearts(prev => prev.slice(-20));
+                }, 1000);
+                return () => clearTimeout(cleanup);
+            }, [hearts]);
+
+            const handleAnswer = (optionIndex) => {
+                setAnswers([...answers, optionIndex]);
+                
+                if (currentCard < questions.length - 1) {
+                    setTimeout(() => {
+                        setCurrentCard(currentCard + 1);
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        setShowTicket(true);
+                    }, 500);
+                }
+            };
+
+            const FloatingHeart = ({ heart }) => (
+                <div
+                    key={heart.id}
+                    className="fixed pointer-events-none z-10"
+                    style={{
+                        left: `${heart.left}%`,
+                        bottom: '-60px',
+                        animation: `floatUp ${heart.duration}s linear forwards`,
+                        fontSize: `${heart.size}px`
+                    }}
+                >
+                    <Heart 
+                        size={heart.size} 
+                        fill={Math.random() > 0.5 ? "#ff69b4" : "#ff1493"} 
+                        color="#ff1493" 
+                    />
+                </div>
+            );
+
+            const LotusDecoration = ({ position }) => (
+                <div className={`fixed ${position} pointer-events-none opacity-20`}>
+                    <Flower2 size={50} color="#ff69b4" fill="#ffb6c1" />
+                </div>
+            );
+
+            if (showTicket) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-pink-100 flex items-center justify-center p-4 relative overflow-hidden">
+                        {hearts.map(heart => <FloatingHeart key={heart.id} heart={heart} />)}
+                        <LotusDecoration position="top-8 left-8" />
+                        <LotusDecoration position="top-16 right-12" />
+                        <LotusDecoration position="bottom-12 left-16" />
+                        <LotusDecoration position="bottom-8 right-8" />
+                        
+                        <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
+                            <div className="text-center mb-6">
+                                <h1 className="text-3xl font-bold text-pink-600 mb-3">
+                                    She said YES! 🎉
+                                </h1>
+                                <p className="text-lg text-gray-600">
+                                    Pack your bags Rucchhitttaaaaa...!! Adventure awaits 💕
+                                </p>
+                            </div>
+
+                            <div className="bg-pink-50 rounded-xl p-6 border-2 border-pink-200 mb-6">
+                                <div className="text-center mb-4">
+                                    <h2 className="text-2xl font-bold text-pink-500 mb-1">Your Trip Pass 🎫</h2>
+                                    <p className="text-gray-500">3 Days of Pure Fun!</p>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <div className="bg-white rounded-lg p-4">
+                                        <p className="text-sm text-gray-500 mb-1">Where we're going</p>
+                                        <p className="text-xl font-semibold text-purple-600">Manipal, Udupi 🏖️</p>
+                                    </div>
+
+                                    <div className="bg-white rounded-lg p-4">
+                                        <p className="text-sm text-gray-500 mb-1">How long</p>
+                                        <p className="text-xl font-semibold text-pink-600">3 Days 🌟</p>
+                                    </div>
+
+                                    <div className="bg-white rounded-lg p-4">
+                                        <p className="text-sm text-gray-500 mb-1">Who's coming</p>
+                                        <p className="text-xl font-semibold text-purple-600">You & Your Shree 😊</p>
+                                    </div>
+
+                                    <div className="bg-white rounded-lg p-4">
+                                        <p className="text-sm text-gray-500 mb-1">A little note for you</p>
+                                        <p className="text-base text-gray-700">
+                                            Can't wait to spend these 3 days with you, Sunshine! 
+                                            Get ready for beach walks, good food, and lots of fun moments together. 
+                                            You know what makes me the happiest? That you're coming to my convocation! 
+                                            Having you there will make it the most special and memorable day of my life 💕
+                                        </p>
+                                        <p className="text-l align-centre font-semibold text-pink-600">Also, bring Chi-Chi and kim taehyung ready and prepared... 😏😏😈😈</p>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="text-center">
+                                <p className="text-sm text-gray-500 mb-4">
+                                    📄 I'll share the actual ticket details with you soon!
+                                </p>
+                                <div className="inline-block bg-pink-500 text-white px-6 py-3 rounded-full text-lg font-semibold">
+                                    I Love You More Babbyyy Jaannnn...!! 💕
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-pink-100 flex items-center justify-center p-4 relative overflow-hidden">
+                    {hearts.map(heart => <FloatingHeart key={heart.id} heart={heart} />)}
+                    
+                    <LotusDecoration position="top-8 left-8" />
+                    <LotusDecoration position="top-16 right-12" />
+                    <LotusDecoration position="bottom-12 left-16" />
+                    <LotusDecoration position="bottom-8 right-8" />
+
+                    <div className="max-w-md w-full">
+                        <div className="text-center mb-6">
+                            <h1 className="text-3xl font-bold text-pink-600 mb-3">
+                                For My Shree ji 💕
+                            </h1>
+                            <div className="flex justify-center gap-2">
+                                {questions.map((_, idx) => (
+                                    <div
+                                        key={idx}
+                                        className={`h-2 w-8 rounded-full ${
+                                            idx === currentCard ? 'bg-pink-500' : 
+                                            idx < currentCard ? 'bg-purple-400' : 'bg-pink-200'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-2xl shadow-lg p-8">
+                            <div className="mb-6 text-center">
+                                <div className="mb-4">
+                                    <Heart size={35} fill="#ff69b4" color="#ff1493" className="mx-auto" />
+                                </div>
+                                <h2 className="text-xl font-semibold text-gray-800 mb-4 leading-relaxed">
+                                    {questions[currentCard].question}
+                                </h2>
+                            </div>
+
+                            <div className="space-y-3">
+                                {questions[currentCard].options.map((option, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => handleAnswer(idx)}
+                                        className="w-full bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white py-3 px-5 rounded-xl font-medium text-base shadow-md transition-all duration-200 hover:shadow-lg hover:scale-105"
+                                    >
+                                        {option}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="mt-5 text-center text-sm text-gray-400">
+                                {currentCard + 1} of {questions.length}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<RomanticInvitation />);
+    </script>
+</body>
+</html>
